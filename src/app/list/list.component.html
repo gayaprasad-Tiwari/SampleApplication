@@ -1,0 +1,32 @@
+<div class="card" *ngFor="let lst of list" style="width: 30%; float:left">
+    <div class="card-body">
+        <h5> {{lst.ListTitle}} <span >&times;</span> </h5> 
+        <ul *ngFor="let card of lst.cards; index as i ">
+            <li>{{card.name}} <span (click)="oCardDelConf(lst, i)" >&times;</span></li>
+        </ul>
+        <div  (click)="addsinglelist.open()">
+                +Add a card
+        </div>
+        <app-card [singlelist]='lst' #addsinglelist></app-card>
+    </div>
+</div>
+<div  data-toggle="modal" (click)="addList.open()">
+        +add another list
+</div>
+<app-add-list [list]="list" #addList ></app-add-list>
+<ng-template #cardDeletion let-modal>
+    <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Card deletion</h4>
+    <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+    <p><strong>Are you sure you want to delete <span class="text-primary">"John Doe"</span> profile?</strong></p>
+    
+    </div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
+</div>
+</ng-template>
