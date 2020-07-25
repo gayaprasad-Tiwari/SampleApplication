@@ -1,5 +1,6 @@
 export interface IList {
     ListTitle:string,
+    id:number,
     cards?:ICard[]
 }
 

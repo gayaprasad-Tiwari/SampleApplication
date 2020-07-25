@@ -1,19 +1,22 @@
-<div class="card" *ngFor="let lst of list" style="width: 30%; float:left">
-    <div class="card-body">
-        <h5> {{lst.ListTitle}} <span >&times;</span> </h5> 
-        <ul *ngFor="let card of lst.cards; index as i ">
-            <li>{{card.name}} <span (click)="oCardDelConf(lst, i)" >&times;</span></li>
-        </ul>
-        <div  (click)="addsinglelist.open()">
-                +Add a card
+<div class="wrapper">
+        <div cdkDropListGroup>
+            <div class="container"  *ngFor="let lst of list"  >
+                <h5> {{lst.ListTitle}} <span >&times;</span> </h5> 
+              <div cdkDropList  [cdkDropListData]="lst.cards"
+                class="movie-list" (cdkDropListDropped)="onDrop($event)" class="card-list-container">
+                <div class="card-list-item"  *ngFor="let moviesList of lst.cards;  index as i" cdkDrag>{{moviesList.name}}  <span (click)="oCardDelConf(lst, i)" >&times;</span></div>
+              </div>
+              <div  (click)="addsinglelist.open()">
+                    +Add a card
+            </div>
+            <app-card  [singlelist]='lst' #addsinglelist ></app-card>
+            </div>
         </div>
-        <app-card [singlelist]='lst' #addsinglelist></app-card>
-    </div>
-</div>
-<div  data-toggle="modal" (click)="addList.open()">
+  </div>
+<div  data-toggle="modal" (click)="addList.open()" style="float: left">
         +add another list
 </div>
-<app-add-list [list]="list" #addList ></app-add-list>
+<app-add-list [list]="list" [connectedTo]="connectedTo" #addList ></app-add-list>
 <ng-template #cardDeletion let-modal>
     <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Card deletion</h4>
@@ -29,4 +32,4 @@
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
     <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
 </div>
-</ng-template>
+</ng-template> 

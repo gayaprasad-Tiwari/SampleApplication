@@ -12,6 +12,7 @@ export class AddListComponent implements OnInit {
   listForm:FormGroup;
   @ViewChild('content') content;
   @Input() list;
+  @Input() connectedTo;
   constructor(private fb: FormBuilder, private modalService:NgbModal) { }
 
   ngOnInit(): void {
@@ -25,7 +26,8 @@ export class AddListComponent implements OnInit {
   addlist(){
     this.submitted=true;
     if(this.listForm.valid){
-      this.list.push({'ListTitle': this.f.ListTitle.value})
+      this.list.push({'id':this.list.length,'ListTitle': this.f.ListTitle.value})
+      this.connectedTo.push(this.list.length)
       this.listForm.reset();
       this.submitted=false;
     }
