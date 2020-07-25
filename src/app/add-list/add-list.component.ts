@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { FormBuilder, FormGroup,Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,Validators, FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import {checkDuplicateValue} from './checkDuplicateValidator'
 @Component({
   selector: 'app-add-list',
   templateUrl: './add-list.component.html',
@@ -12,13 +12,12 @@ export class AddListComponent implements OnInit {
   listForm:FormGroup;
   @ViewChild('content') content;
   @Input() list;
-  @Input() connectedTo;
   constructor(private fb: FormBuilder, private modalService:NgbModal) { }
 
   ngOnInit(): void {
-    this.listForm =this.fb.group({
-      ListTitle:['',Validators.required]
-    })
+    this.listForm = this.fb.group({
+      ListTitle: ["", [Validators.required, checkDuplicateValue(this.list)]]   
+     })
   }
 
   get f() { return this.listForm.controls; }
@@ -27,12 +26,13 @@ export class AddListComponent implements OnInit {
     this.submitted=true;
     if(this.listForm.valid){
       this.list.push({'id':this.list.length,'ListTitle': this.f.ListTitle.value, cards:[]})
-      this.connectedTo.push(this.list.length)
       this.listForm.reset();
       this.submitted=false;
     }
   }
-
+  checkDuplicate(){
+  
+  }
   open() {
     this.modalService.open(this.content, {ariaLabelledBy: 'modal-basic-title'})
 }

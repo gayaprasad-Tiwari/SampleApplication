@@ -16,7 +16,7 @@
 <div  data-toggle="modal" (click)="addList.open()" style="float: left">
         +add another list
 </div>
-<app-add-list [list]="list" [connectedTo]="connectedTo" #addList ></app-add-list>
+<app-add-list [list]="list"  #addList ></app-add-list>
 <ng-template #cardDeletion let-modal>
     <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Card deletion</h4>
