@@ -26,7 +26,7 @@ export class AddListComponent implements OnInit {
   addlist(){
     this.submitted=true;
     if(this.listForm.valid){
-      this.list.push({'id':this.list.length,'ListTitle': this.f.ListTitle.value})
+      this.list.push({'id':this.list.length,'ListTitle': this.f.ListTitle.value, cards:[]})
       this.connectedTo.push(this.list.length)
       this.listForm.reset();
       this.submitted=false;
