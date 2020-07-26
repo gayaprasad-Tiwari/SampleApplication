@@ -1,4 +1,15 @@
 <div>
-  <h1>Sample Application</h1>
+  <h1>Sample Application 
+    <div style="float:right; font-size:16px;margin:18px 10px 0 0">
+      <label class="radio-inline">
+      <input type="radio" value="ligth" name="theme"   [(ngModel)]="theme" (change)="changeTheme()"> ligth theme
+    </label>
+    <label class="radio-inline">
+      <input type="radio" value="dark" name="theme"  [(ngModel)]="theme"  (change)="changeTheme()"> dark theme
+    </label>
+    </div>
+    
+  </h1>
+
   <app-list></app-list>
 </div>

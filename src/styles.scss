@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    /* Colors */
+    --background-default: #f4faff;
+    --primary-default: #000000;
+    --popup-default:#000000;
+  }
+
+  body {
+    background: var(--background-default);
+    color:var(--primary-default)
+  }
+  .modal-dialog{
+    color:var(--popup-default) 
+  }
+  
+  

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ThemeService } from './theme.service';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  theme='ligth';
+  constructor(  private themeService: ThemeService){
+    
+  }
+  changeTheme(){
+    if(this.theme=='ligth'){
+      this.themeService.setLightTheme();
+    } else{
+      this.themeService.setDarkTheme();
+    }
+  }
 }
