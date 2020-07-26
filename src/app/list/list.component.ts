@@ -10,8 +10,10 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 })
 export class ListComponent implements OnInit {
   list:IList[];
+  deleteValue;
+  deleteHead: string;
   constructor(private modalService:NgbModal) {
-    this.list=[{id:0,ListTitle:'abc',cards:[{id:1,name:'a'}]},{id:2,ListTitle:'abc',cards:[{id:3,name:'d'}]}];
+    this.list=[{id:0,ListTitle:'abc',cards:[{id:1,name:'a', editMode:false}]},{id:2,ListTitle:'abc',cards:[{id:3,name:'d',editMode:false}]}];
 
    }
 
@@ -19,14 +21,26 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  oCardDelConf(lst:IList,i) {
+  oCardDelConf(lst:IList,i,e) {
+    this.deleteValue =lst.cards[i].name;
+   this.deleteHead = 'Card'
     this.modalService.open(this.cardDeletion, {ariaLabelledBy: 'modal-basic-title'}).result.then((data)=>{
       lst.cards.splice(i,1);
     }, (data)=>{
       console.log(data)
     })
+    e.target.blur()
   }
-
+  oListDelCOnf(i,e){
+    this.deleteValue =this.list[i].ListTitle;
+    this.deleteHead = 'List'
+    this.modalService.open(this.cardDeletion, {ariaLabelledBy: 'modal-basic-title'}).result.then((data)=>{
+      this.list.splice(i,1);
+    }, (data)=>{
+      console.log(data)
+    })
+    e.target.blur()
+  }
   onDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -37,4 +51,6 @@ export class ListComponent implements OnInit {
                     event.currentIndex);
     }
     }
+    
+
 }

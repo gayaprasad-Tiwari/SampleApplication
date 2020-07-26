@@ -31,7 +31,7 @@ export class CardComponent implements OnInit {
       if(!this.singlelist.cards){
         this.singlelist.cards=[]
       }
-      let obj={id:this.singlelist.cards.length,name:this.f.card.value}
+      let obj={id:this.singlelist.cards.length,name:this.f.card.value, editMode:false}
       this.singlelist.cards.push(obj)
       this.cardForm.reset();
       this.submitted=false;

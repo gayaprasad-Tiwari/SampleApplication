@@ -6,5 +6,6 @@ export interface IList {
 
 interface ICard{
     id:number,
-    name:string
+    name:string,
+    editMode:boolean,
 }

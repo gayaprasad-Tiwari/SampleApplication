@@ -10,12 +10,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AutofocusDirective } from './auto-focus.directive';
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
     AddListComponent,
-    CardComponent
+    CardComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,
