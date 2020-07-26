@@ -10,8 +10,11 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 })
 export class ListComponent implements OnInit {
   list:IList[];
-  deleteValue;
+  deleteValue:any;
   deleteHead: string;
+  editListMode:boolean =false;
+  editListIndex:number;
+  @ViewChild('addList') addList;
   constructor(private modalService:NgbModal) {
     this.list=[{id:0,ListTitle:'abc',cards:[{id:1,name:'a', editMode:false}]},{id:2,ListTitle:'abc',cards:[{id:3,name:'d',editMode:false}]}];
 
@@ -21,6 +24,15 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  editListName(i){
+    this.editListIndex=i;
+    this.editListMode=true;
+    this.addList.open()
+  }
+  addNewList(){
+    this.editListMode=false;
+    this.addList.open()
+  }
   oCardDelConf(lst:IList,i,e) {
     this.deleteValue =lst.cards[i].name;
    this.deleteHead = 'Card'

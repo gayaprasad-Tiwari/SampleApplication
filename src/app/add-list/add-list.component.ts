@@ -12,6 +12,8 @@ export class AddListComponent implements OnInit {
   listForm:FormGroup;
   @ViewChild('content') content;
   @Input() list;
+  @Input() editListMode;
+  @Input() editListIndex;
   constructor(private fb: FormBuilder, private modalService:NgbModal) { }
 
   ngOnInit(): void {
@@ -19,7 +21,13 @@ export class AddListComponent implements OnInit {
       ListTitle: ["", [Validators.required, checkDuplicateValue(this.list)]]   
      })
   }
-
+  ngOnChanges(){
+    if(this.editListMode){
+      this.f.ListTitle.setValue(this.list[this.editListIndex].ListTitle)
+    }else{
+      this.f.ListTitle.reset()
+    }
+  }
   get f() { return this.listForm.controls; }
 
   addlist(){
@@ -30,8 +38,14 @@ export class AddListComponent implements OnInit {
       this.submitted=false;
     }
   }
-  checkDuplicate(){
-  
+  editlist(){
+    this.submitted=true;
+    if(this.listForm.valid){
+      this.list[this.editListIndex].ListTitle= this.f.ListTitle.value;
+      this.listForm.reset();
+      this.submitted=false;
+      this.editListMode=false
+    }
   }
   open() {
     this.modalService.open(this.content, {ariaLabelledBy: 'modal-basic-title'})

@@ -2,7 +2,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Add list</h5> 
-            <button type="button" class="close"  (click)="modal.dismiss()">
+            <button type="button" class="close"  (click)="modal.dismiss();">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -24,7 +24,8 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" (click)="addlist()">Add</button>
+            <button type="button" class="btn btn-primary" *ngIf="!editListMode" (click)="addlist()">Add</button>
+            <button type="button" class="btn btn-primary" *ngIf="editListMode" (click)="editlist()">Edit</button>
         </div>
     </div>
 </ng-template>
