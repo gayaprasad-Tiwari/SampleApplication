@@ -1,4 +1,4 @@
-<div class="wrapper"  >
+<div class="wrapper">
     <div cdkDropList [cdkDropListData]="list" (cdkDropListDropped)="onDrop($event)" class="wrapper-inner" >
         <div cdkDropListGroup style="display: block;">
             <div class="container"  *ngFor="let lst of list; index as i" cdkDrag>
@@ -38,7 +38,7 @@
     <span *ngIf='list.length > 0'> +add another list</span>
     
 </div>
-<app-add-list [list]="list" #addList [editListMode]="editListMode" [editListIndex]="editListIndex"></app-add-list>
+<app-add-list [list]="list" #addList  (modelClose)="onModelClose($event)" [editListMode]="editListMode" [editListIndex]="editListIndex"></app-add-list>
 <ng-template #cardDeletion let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-title">{{deleteHead}} deletion</h4>

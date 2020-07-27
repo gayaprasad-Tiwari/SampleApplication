@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup,Validators, FormControl } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -15,6 +15,7 @@ export class AddListComponent implements OnInit {
   @Input() list;
   @Input() editListMode;
   @Input() editListIndex;
+  @Output() modelClose= new EventEmitter<boolean>()
   constructor(private fb: FormBuilder, private modalService:NgbModal) { }
 
   ngOnInit(): void {
@@ -37,6 +38,7 @@ export class AddListComponent implements OnInit {
       this.list.push({'id':this.list.length,'ListTitle': this.f.ListTitle.value, cards:[]})
       this.listForm.reset();
       this.submitted=false;
+      this.modelClose.emit(false)
       this.modalReference.close()
     }
   }
@@ -46,7 +48,7 @@ export class AddListComponent implements OnInit {
       this.list[this.editListIndex].ListTitle= this.f.ListTitle.value;
       this.listForm.reset();
       this.submitted=false;
-      this.editListMode=false;
+      this.modelClose.emit(false)
       this.modalReference.close()
     }
   }
@@ -56,7 +58,7 @@ export class AddListComponent implements OnInit {
   closeModel(){
       this.listForm.reset();
       this.submitted=false;
-      this.editListMode=false;
+      this.modelClose.emit(false)
       this.modalReference.close()
   }
 

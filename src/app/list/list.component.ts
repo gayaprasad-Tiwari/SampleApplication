@@ -25,9 +25,9 @@ export class ListComponent implements OnInit {
     this.editListIndex=i;
     this.editListMode=true;
     this.addList.open()
+  
   }
   addNewList(){
-    this.editListMode=false;
     this.addList.open()
   }
   oCardDelConf(lst:IList,i,e) {
@@ -59,5 +59,8 @@ export class ListComponent implements OnInit {
                     event.previousIndex,
                     event.currentIndex);
     }
+  }
+  onModelClose(e){
+    this.editListMode =e;
   }
 }

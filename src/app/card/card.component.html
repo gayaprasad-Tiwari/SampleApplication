@@ -14,7 +14,7 @@
                     <input type="text" formControlName="card" required>
                 </div>
                 <div *ngIf="submitted && f.card.errors" >
-                    <span *ngIf="f.card.errors.required">
+                    <span *ngIf="f.card.errors.required" class="error">
                             card Name is required
                     </span>
                 </div>
