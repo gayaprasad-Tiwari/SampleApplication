@@ -17,7 +17,7 @@
                             tabindex="1">{{card.name}} </span>
                         <input *ngIf='card.editMode' (keydown.enter)='$event.target.blur()' [(ngModel)]='card.name'
                             class='' appAutofocus type="text" (focusout)="card.editMode=false">
-                        <span (keyup.enter)="oCardDelConf(lst, i, $event)" (click)="oCardDelConf(lst, i, $event)"
+                        <span (keyup.enter)="oCardDelConf(lst, i, $event)" class="close" (click)="oCardDelConf(lst, i, $event)"
                             tabindex="1">&times;</span>
                     </div>
                 </div>
@@ -34,7 +34,9 @@
 </div>
 <div data-toggle="modal" tabindex="1" (keyup.enter)="addList.open();$event.target.blur()"
     (click)="addNewList(); $event.target.blur()" style="float: left">
-    +add another list
+    <span *ngIf='list.length==0'>+add  list</span>
+    <span *ngIf='list.length > 0'> +add another list</span>
+    
 </div>
 <app-add-list [list]="list" #addList [editListMode]="editListMode" [editListIndex]="editListIndex"></app-add-list>
 <ng-template #cardDeletion let-modal>

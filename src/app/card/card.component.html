@@ -1,31 +1,28 @@
-
-             
-     <!-- Modal -->
-     <ng-template  #cardContent let-modal> 
-  
-         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Card</h5>
-                <button type="button" class="close" (click)="modal.dismiss()">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="cardForm" >
-                    <div>
-                        <label> card Name</label> 
-                        <input type="text" formControlName="card" required>
-                    </div>
-                    <div *ngIf="submitted && f.card.errors" >
-                        <span *ngIf="f.card.errors.required">
-                                card Name is required
-                        </span>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="addCard()" >Add</button>
-            </div>
-         </div>
-    </ng-template>  
+<!-- Modal -->
+    <ng-template  #cardContent let-modal> 
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Card</h5>
+            <button type="button" class="close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="cardForm" >
+                <div>
+                    <label> card Name</label> 
+                    <input type="text" formControlName="card" required>
+                </div>
+                <div *ngIf="submitted && f.card.errors" >
+                    <span *ngIf="f.card.errors.required">
+                            card Name is required
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="addCard()" >Add</button>
+        </div>
+        </div>
+</ng-template>  
  

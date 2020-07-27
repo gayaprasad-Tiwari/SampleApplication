@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {IList} from './list.interface'
+import { IList } from './list.interface'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
@@ -16,13 +16,10 @@ export class ListComponent implements OnInit {
   editListIndex:number;
   @ViewChild('addList') addList;
   constructor(private modalService:NgbModal) {
-    this.list=[{id:0,ListTitle:'abc',cards:[{id:1,name:'a', editMode:false}]},{id:2,ListTitle:'abc',cards:[{id:3,name:'d',editMode:false}]}];
-
+    this.list=[];
    }
-
   @ViewChild('cardDeletion') cardDeletion;
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   editListName(i){
     this.editListIndex=i;
@@ -35,7 +32,7 @@ export class ListComponent implements OnInit {
   }
   oCardDelConf(lst:IList,i,e) {
     this.deleteValue =lst.cards[i].name;
-   this.deleteHead = 'Card'
+    this.deleteHead = 'Card'
     this.modalService.open(this.cardDeletion, {ariaLabelledBy: 'modal-basic-title'}).result.then((data)=>{
       lst.cards.splice(i,1);
     }, (data)=>{
@@ -62,7 +59,5 @@ export class ListComponent implements OnInit {
                     event.previousIndex,
                     event.currentIndex);
     }
-    }
-    
-
+  }
 }

@@ -8,7 +8,8 @@ import { ThemeService } from './theme.service';
 })
 export class AppComponent {
   theme='ligth';
-  constructor(  private themeService: ThemeService){
+  title='Sample Application';
+  constructor(  public themeService: ThemeService){
     
   }
   changeTheme(){

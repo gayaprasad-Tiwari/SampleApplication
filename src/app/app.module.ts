@@ -11,13 +11,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AutofocusDirective } from './auto-focus.directive';
+import { CheckDuplicateDirective } from './check-duplicate.directive';
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
     AddListComponent,
     CardComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    CheckDuplicateDirective
   ],
   imports: [
     BrowserModule,

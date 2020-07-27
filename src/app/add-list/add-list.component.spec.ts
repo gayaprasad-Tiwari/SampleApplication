@@ -1,6 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
 
 import { AddListComponent } from './add-list.component';
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 describe('AddListComponent', () => {
   let component: AddListComponent;
@@ -8,7 +10,9 @@ describe('AddListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddListComponent ]
+      declarations: [ AddListComponent],
+      imports:[ReactiveFormsModule],
+      providers:[FormBuilder, NgbModal, {provide: ComponentFixtureAutoDetect, useValue: true }]
     })
     .compileComponents();
   }));
@@ -20,6 +24,7 @@ describe('AddListComponent', () => {
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup,Validators, FormControl } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {checkDuplicateValue} from './checkDuplicateValidator'
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-add-list',
   templateUrl: './add-list.component.html',
@@ -10,6 +10,7 @@ import {checkDuplicateValue} from './checkDuplicateValidator'
 export class AddListComponent implements OnInit {
   submitted:boolean=false;
   listForm:FormGroup;
+  modalReference:NgbModalRef;
   @ViewChild('content') content;
   @Input() list;
   @Input() editListMode;
@@ -18,7 +19,7 @@ export class AddListComponent implements OnInit {
 
   ngOnInit(): void {
     this.listForm = this.fb.group({
-      ListTitle: ["", [Validators.required, checkDuplicateValue(this.list)]]   
+      ListTitle: ["", [Validators.required]]   
      })
   }
   ngOnChanges(){
@@ -36,6 +37,7 @@ export class AddListComponent implements OnInit {
       this.list.push({'id':this.list.length,'ListTitle': this.f.ListTitle.value, cards:[]})
       this.listForm.reset();
       this.submitted=false;
+      this.modalReference.close()
     }
   }
   editlist(){
@@ -44,11 +46,18 @@ export class AddListComponent implements OnInit {
       this.list[this.editListIndex].ListTitle= this.f.ListTitle.value;
       this.listForm.reset();
       this.submitted=false;
-      this.editListMode=false
+      this.editListMode=false;
+      this.modalReference.close()
     }
   }
   open() {
-    this.modalService.open(this.content, {ariaLabelledBy: 'modal-basic-title'})
-}
+    this.modalReference = this.modalService.open(this.content, {ariaLabelledBy: 'modal-basic-title'})
+  }
+  closeModel(){
+      this.listForm.reset();
+      this.submitted=false;
+      this.editListMode=false;
+      this.modalReference.close()
+  }
 
 }
