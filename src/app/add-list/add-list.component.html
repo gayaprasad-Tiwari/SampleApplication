@@ -16,9 +16,12 @@
                     <span *ngIf="f.ListTitle.errors.required" >
                         list Name is required
                     </span>
+                    <span *ngIf="f.ListTitle.errors.maxlength" >
+                       length of list Name should not be grater then 50 charectors
+                    </span>
                     <span *ngIf="f.ListTitle.errors.checkDuplicateValue">
                         Duplicate List name is not allowed.
-                        </span>
+                    </span>
                 </div>
             </form>
         </div>

@@ -1,5 +1,5 @@
 {
-  "name": "sample-application",
+  "name": "task-manager",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -21,7 +21,6 @@
     "@angular/material": "^10.1.0",
     "@angular/platform-browser": "~9.1.9",
     "@angular/platform-browser-dynamic": "~9.1.9",
-    "@angular/router": "~9.1.9",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "@types/jquery": "^3.5.0",
     "bootstrap": "^4.5.0",

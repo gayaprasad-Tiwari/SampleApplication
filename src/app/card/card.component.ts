@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild, Input, SimpleChange } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, SimpleChange, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { constant } from '../porperties';
+import { TaskStorageService } from '../task-storage.service';
 
 @Component({
   selector: 'app-card',
@@ -11,8 +13,9 @@ export class CardComponent implements OnInit {
   submitted:boolean=false;
   cardForm:FormGroup;
   @ViewChild('cardContent') cardContent;
-  @Input() singlelist;
-  constructor(private fb: FormBuilder, private modalService:NgbModal, private activeModal: NgbActiveModal) { }
+  @Input() index;
+  @Output() cardAdded = new EventEmitter<any>()
+  constructor(private fb: FormBuilder, private modalService:NgbModal, private activeModal: NgbActiveModal, private taskStorageService: TaskStorageService ) { }
   ngOnInit(): void {
     this.cardForm =this.fb.group({
       card:['',Validators.required]
@@ -20,15 +23,14 @@ export class CardComponent implements OnInit {
   }
 
   get f() { return this.cardForm.controls; }
-
+  
+//add new card
   addCard(){
     this.submitted=true;
     if(this.cardForm.valid){
-      if(!this.singlelist.cards){
-        this.singlelist.cards=[]
-      }
-      let obj={id:this.singlelist.cards.length,name:this.f.card.value, editMode:false}
-      this.singlelist.cards.push(obj)
+      this.taskStorageService.addCard(this.index, this.f.card.value).subscribe((data)=>{
+        this.cardAdded.emit(data)
+      })
       this.cardForm.reset();
       this.submitted=false;
       this.activeModal.close();
@@ -36,6 +38,6 @@ export class CardComponent implements OnInit {
   }
   
   open() {
-    this.activeModal= this.modalService.open(this.cardContent, {ariaLabelledBy: 'modal-basic-title'})
+    this.activeModal= this.modalService.open(this.cardContent, {ariaLabelledBy: constant.properties.addCard})
   }
 }

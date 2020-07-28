@@ -38,17 +38,7 @@ describe('CardComponent', () => {
     expect(errors['required']).toBeTruthy();
   })
 
-  it('submited should be true', ()=>{
-    component.singlelist={ListTitle:'abn', id:1,}
-    let card = component.cardForm.controls["card"];
-    card.setValue('abc')
-    component.addCard()
-    fixture.whenStable().then(()=>{
-        expect(component.submitted).toBeFalsy()
-        expect(component.singlelist.cards.length).toBe(1)
-    })
-  
-  })
+
   it('model shold be open',()=>{
      component.open()
       fixture.whenStable().then(()=>{

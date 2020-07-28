@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup,Validators, FormControl } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TaskStorageService } from '../task-storage.service';
 
 @Component({
   selector: 'app-add-list',
@@ -16,13 +17,16 @@ export class AddListComponent implements OnInit {
   @Input() editListMode;
   @Input() editListIndex;
   @Output() modelClose= new EventEmitter<boolean>()
-  constructor(private fb: FormBuilder, private modalService:NgbModal,  activeModal: NgbActiveModal ) { }
+  @Output() listAdded= new EventEmitter<any>()
+  
+  constructor(private fb: FormBuilder, private modalService:NgbModal,  activeModal: NgbActiveModal, private taskStorageService: TaskStorageService ) { }
 
   ngOnInit(): void {
     this.listForm = this.fb.group({
-      ListTitle: ["", [Validators.required]]   
+      ListTitle: ["", [Validators.required, Validators.maxLength(50)]]   
      })
   }
+
   ngOnChanges(){
     if(this.editListMode){
       this.f.ListTitle.setValue(this.list[this.editListIndex].ListTitle)
@@ -31,25 +35,24 @@ export class AddListComponent implements OnInit {
     }
   }
   get f() { return this.listForm.controls; }
-
+//add list
   addlist(){
     this.submitted=true;
     if(this.listForm.valid){
-      this.list.push({'id':this.list.length,'ListTitle': this.f.ListTitle.value, cards:[]})
-      this.listForm.reset();
-      this.submitted=false;
-      this.modelClose.emit(false)
-      this.activeModal.close()
+      this.taskStorageService.addList(this.f.ListTitle.value).subscribe((data)=>{
+        this.listAdded.emit(data)
+        this.closeModel()
+      })
     }
   }
+  //edit list
   editlist(){
     this.submitted=true;
     if(this.listForm.valid){
-      this.list[this.editListIndex].ListTitle= this.f.ListTitle.value;
-      this.listForm.reset();
-      this.submitted=false;
-      this.modelClose.emit(false)
-      this.activeModal.close()
+      this.taskStorageService.editList(this.editListIndex, this.f.ListTitle.value).subscribe((data) =>{
+        this.listAdded.emit(data)
+        this.closeModel()
+      })
     }
   }
   open() {

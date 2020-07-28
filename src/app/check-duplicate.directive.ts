@@ -4,6 +4,7 @@ import { NG_VALIDATORS, Validator, AbstractControl, Validators, ValidationErrors
   selector: '[appCheckDuplicate]',
   providers: [{provide: NG_VALIDATORS, useExisting: CheckDuplicateDirective, multi: true}]
 })
+/// Directive for duplicate validation
 export class CheckDuplicateDirective implements Validator {
   @Input() list
   private validationFunction = Validators.nullValidator;
@@ -23,12 +24,14 @@ export function checkDuplicateValue(list):ValidatorFn {
   return (control: AbstractControl):{[key: string]: boolean} | null => {
     let check = null
     list.forEach((item, index)=>{
+      if(control.value){
+        control.value.trim();
+      }
       if(item.ListTitle===control.value){
         check= {
             checkDuplicateValue: {valid: false}
          };
       }
-    console.log(item)
     })
     return check
 }

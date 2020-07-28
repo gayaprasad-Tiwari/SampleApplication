@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IList } from './list.interface'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { constant } from '../porperties';
+import { TaskStorageService } from '../task-storage.service';
 
 @Component({
   selector: 'app-list',
@@ -14,42 +16,50 @@ export class ListComponent implements OnInit {
   deleteHead: string;
   editListMode:boolean =false;
   editListIndex:number;
-  @ViewChild('addList') addList;
-  constructor(private modalService:NgbModal) {
-    this.list=[];
+  @ViewChild(constant.properties.addList) addList;
+  constructor(private modalService:NgbModal,  private taskStorageService: TaskStorageService ) {
+    this.list=this.taskStorageService.getList()||[];
    }
-  @ViewChild('cardDeletion') cardDeletion;
+  @ViewChild(constant.properties.cardDeletion) cardDeletion;
   ngOnInit(): void {}
-
+//edit list name
   editListName(i){
     this.editListIndex=i;
     this.editListMode=true;
-    this.addList.open()
-  
+    this.addList.open();
   }
+  //add new list
   addNewList(){
     this.addList.open()
   }
-  oCardDelConf(lst:IList,i,e) {
-    this.deleteValue =lst.cards[i].name;
-    this.deleteHead = 'Card'
-    this.modalService.open(this.cardDeletion, {ariaLabelledBy: 'modal-basic-title'}).result.then((data)=>{
-      lst.cards.splice(i,1);
+  //delete card
+  oCardDelConf(pi,i,e) {
+    this.deleteValue =this.list[pi].cards[i].name;
+    this.deleteHead = constant.properties.card
+    this.modalService.open(this.cardDeletion, {ariaLabelledBy: constant.properties.cardDelete}).result.then((data)=>{
+    this.taskStorageService.deleteCard(pi,i).subscribe((data)=>{
+      this.list=data
+    })
     }, (data)=>{
       console.log(data)
     })
     e.target.blur()
   }
+  //delete list
   oListDelCOnf(i,e){
     this.deleteValue =this.list[i].ListTitle;
-    this.deleteHead = 'List'
-    this.modalService.open(this.cardDeletion, {ariaLabelledBy: 'modal-basic-title'}).result.then((data)=>{
-      this.list.splice(i,1);
+    this.deleteHead = constant.properties.List
+    this.modalService.open(this.cardDeletion, {ariaLabelledBy: constant.properties.listDelete}).result.then((data)=>{
+     this.taskStorageService.deleteLIst(i).subscribe((data)=>{
+      this.list=data;
+     })
+
     }, (data)=>{
       console.log(data)
     })
     e.target.blur()
   }
+  //for droping data
   onDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -57,7 +67,18 @@ export class ListComponent implements OnInit {
     transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     }
   }
+  // edit card
+  editCard(pi,i){
+    this.list[pi].cards[i].editMode=false;
+    let name= this.list[pi].cards[i].name;
+    this.taskStorageService.editCard(pi,i, name).subscribe((data)=>{
+      this.list=data;
+    })
+  }
   onModelClose(e){
     this.editListMode =e;
+  }
+  onListAdded(data){
+    this.list=data;
   }
 }

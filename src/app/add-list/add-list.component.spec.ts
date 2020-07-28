@@ -7,6 +7,7 @@ import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 describe('AddListComponent', () => {
   let component: AddListComponent;
   let fixture: ComponentFixture<AddListComponent>;
+  let modalService: NgbModal;
   let activeModal : NgbActiveModal;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,33 +40,21 @@ describe('AddListComponent', () => {
         expect(component.open()).toHaveBeenCalled() 
     })
   })
+  it('should be edit  method called', ()=>{
+    component.f.ListTitle.setValue('abcs');
+    spyOn(component, 'editlist').and.callThrough()
+    spyOn(component.modelClose, 'emit').and.callThrough()
+    fixture.whenStable().then(()=>{
+        expect(component.submitted).toBeFalsy();
+        expect(component.modelClose.emit(false)).toHaveBeenCalledWith(false)
+    })
+  })
   it('should be addlist method called', ()=>{
     spyOn(component, 'addlist').and.callThrough()
-    component.f.ListTitle.setValue('abc')
+    component.f.ListTitle.setValue('abc');
     fixture.whenStable().then(()=>{
         expect(component.addlist()).toHaveBeenCalled()
         expect(component.listForm.reset()).toHaveBeenCalled() 
     })
   })
-  it('should be edit  method called', ()=>{
-    spyOn(component, 'editlist').and.callThrough()
-    spyOn(component.modelClose, 'emit').and.callThrough()
-    component.f.ListTitle.setValue('abc')
-    fixture.whenStable().then(()=>{
-        expect(component.submitted).toBeFalsy()
-        expect(component.modelClose.emit(false)).toHaveBeenCalledWith(false)
-
-    })
-  })
-  // it('should test ng onchanges',()=>{
-   
-  //   component.list=[{'id':1,'ListTitle': 'abc', cards:[]}]
-  //   component.editListIndex=0;
-  //   component.editListMode = true;
-  //   fixture.detectChanges()
-  //   fixture.whenStable().then(()=>{
-  //   expect(component.f.ListTitle.value).toEqual('')
-  //   })
-  // })
-  
 });

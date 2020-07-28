@@ -1,21 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import {IList} from './list.interface'
 import { ListComponent } from './list.component';;
 import { By } from '@angular/platform-browser';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal,NgbModule  } from '@ng-bootstrap/ng-bootstrap';
+import { TaskStorageService } from '../task-storage.service';
 
 
 describe('ListComponent', () => {
   let component: ListComponent;
   let fixture: ComponentFixture<ListComponent>;
-  let modalService: NgbModal;
-
+  let taskStorageService:TaskStorageService
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ListComponent],
       imports:[ NgbModule],
-      providers:[FormBuilder,NgbModal]
+      providers:[FormBuilder,NgbModal,TaskStorageService]
     })
     .compileComponents();
   }));
@@ -23,6 +23,7 @@ describe('ListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ListComponent);
     component = fixture.componentInstance;
+    taskStorageService = TestBed.inject(TaskStorageService);
     fixture.detectChanges();
   });
 
@@ -40,28 +41,7 @@ describe('ListComponent', () => {
     expect(listItem.length).toBe(1)
   })
 
-it('should delete list',()=>{
-  component.list=[{ListTitle:'abe',id:1},{ListTitle:'adbe',id:2}]
-  fixture.detectChanges()
-  const select = fixture.debugElement.query(By.css('.closeList')).nativeElement;
-  select.dispatchEvent(new Event('click'));
-  const ok = document.getElementsByClassName('okClick');
-  ok[0].dispatchEvent(new Event('click'));
-  fixture.whenStable().then(()=>{
-  expect(component.list.length).toBe(1)
-  })
-})
-it('should delete card', ()=>{
-  component.list=[{ListTitle:'abe',id:1, cards:[{name:'abc',id:1,editMode:false}]}]
-  fixture.detectChanges()
-  const select = fixture.debugElement.query(By.css('.close')).nativeElement;
-  select.dispatchEvent(new Event('click'));
-  const ok = document.getElementsByClassName('okClick');
-  ok[0].dispatchEvent(new Event('click'));
-  fixture.whenStable().then(()=>{
-  expect(component.list[0].cards.length).toBe(0)
-  })
-})
+
 it('should onModelClose method called',()=>{
   spyOn(component, 'onModelClose').and.callThrough()
   fixture.whenStable().then(()=>{
