@@ -51,6 +51,17 @@ it('should delete list',()=>{
   expect(component.list.length).toBe(1)
   })
 })
+it('should delete card', ()=>{
+  component.list=[{ListTitle:'abe',id:1, cards:[{name:'abc',id:1,editMode:false}]}]
+  fixture.detectChanges()
+  const select = fixture.debugElement.query(By.css('.close')).nativeElement;
+  select.dispatchEvent(new Event('click'));
+  const ok = document.getElementsByClassName('okClick');
+  ok[0].dispatchEvent(new Event('click'));
+  fixture.whenStable().then(()=>{
+  expect(component.list[0].cards.length).toBe(0)
+  })
+})
 it('should onModelClose method called',()=>{
   spyOn(component, 'onModelClose').and.callThrough()
   fixture.whenStable().then(()=>{
