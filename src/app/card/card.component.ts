@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input, SimpleChange } from '@angular/core';
 import { FormBuilder, FormGroup,Validators } from '@angular/forms';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -9,10 +10,9 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 export class CardComponent implements OnInit {
   submitted:boolean=false;
   cardForm:FormGroup;
- modalReference:NgbModalRef
   @ViewChild('cardContent') cardContent;
   @Input() singlelist;
-  constructor(private fb: FormBuilder, private modalService:NgbModal) { }
+  constructor(private fb: FormBuilder, private modalService:NgbModal, private activeModal: NgbActiveModal) { }
   ngOnInit(): void {
     this.cardForm =this.fb.group({
       card:['',Validators.required]
@@ -31,11 +31,11 @@ export class CardComponent implements OnInit {
       this.singlelist.cards.push(obj)
       this.cardForm.reset();
       this.submitted=false;
-      this.modalReference.close();
+      this.activeModal.close();
     }
   }
   
   open() {
-    this.modalReference= this.modalService.open(this.cardContent, {ariaLabelledBy: 'modal-basic-title'})
+    this.activeModal= this.modalService.open(this.cardContent, {ariaLabelledBy: 'modal-basic-title'})
   }
 }

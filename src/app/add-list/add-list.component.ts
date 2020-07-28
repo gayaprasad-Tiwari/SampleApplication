@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup,Validators, FormControl } from '@angular/forms';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-list',
@@ -10,13 +10,13 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 export class AddListComponent implements OnInit {
   submitted:boolean=false;
   listForm:FormGroup;
-  modalReference:NgbModalRef;
+  activeModal:NgbActiveModal;
   @ViewChild('content') content;
   @Input() list;
   @Input() editListMode;
   @Input() editListIndex;
   @Output() modelClose= new EventEmitter<boolean>()
-  constructor(private fb: FormBuilder, private modalService:NgbModal) { }
+  constructor(private fb: FormBuilder, private modalService:NgbModal,  activeModal: NgbActiveModal ) { }
 
   ngOnInit(): void {
     this.listForm = this.fb.group({
@@ -39,7 +39,7 @@ export class AddListComponent implements OnInit {
       this.listForm.reset();
       this.submitted=false;
       this.modelClose.emit(false)
-      this.modalReference.close()
+      this.activeModal.close()
     }
   }
   editlist(){
@@ -49,17 +49,17 @@ export class AddListComponent implements OnInit {
       this.listForm.reset();
       this.submitted=false;
       this.modelClose.emit(false)
-      this.modalReference.close()
+      this.activeModal.close()
     }
   }
   open() {
-    this.modalReference = this.modalService.open(this.content, {ariaLabelledBy: 'modal-basic-title'})
+    this.activeModal = this.modalService.open(this.content, {ariaLabelledBy: 'modal-basic-title'})
   }
   closeModel(){
       this.listForm.reset();
       this.submitted=false;
       this.modelClose.emit(false)
-      this.modalReference.close()
+      this.activeModal.close()
   }
 
 }

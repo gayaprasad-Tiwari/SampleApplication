@@ -9,9 +9,7 @@ import { ThemeService } from './theme.service';
 export class AppComponent {
   theme='ligth';
   title='Sample Application';
-  constructor(  public themeService: ThemeService){
-    
-  }
+  constructor(  public themeService: ThemeService){ }
   changeTheme(){
     if(this.theme=='ligth'){
       this.themeService.setLightTheme();
